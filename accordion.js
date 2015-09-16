@@ -88,13 +88,6 @@
 
         var self = this;
 
-        // DOM element
-        this.$root = $(moduleRoot);
-        this.$head = null;
-        this.$body = null;
-
-        this.currentIndex = 0;
-
         // option
         this.opt = {
             root        : moduleRoot,
@@ -114,23 +107,16 @@
             onAnimateEnd: param.onAnimateEnd || null
         };
 
-
+        // DOM element
         this.$root = $(moduleRoot);
         this.$head = this.$root.find(this.opt.head);
         this.$body = this.$root.find(this.opt.body);
 
         this.currentIndex = _.isNull(this.opt.startCurrent) ? 0 : this.opt.startCurrent;
 
+        // init
         this.$body.hide();
-
-        if (this.opt.startCurrent !== null){
-            this.$head.eq(this.opt.startCurrent)
-                .addClass(this.opt.openedClass);
-
-            this.$body.eq(this.opt.startCurrent)
-                .addClass(this.opt.openedClass)
-                .show();
-        }
+        if (this.opt.startCurrent !== null) this.open();
 
         // set event
         this.$head.on("click", function(){
@@ -188,21 +174,20 @@
      */
     Module.prototype.toggle = function(clickElement){
 
-        if (clickElement == null){
-            clickElement = null;
-        }
+        if (clickElement == null) clickElement = null;
 
         this.setCurrent(clickElement);
 
         doCallBack(this.opt.onClick);
 
-        if (this.opt.interlocking){
-            this.closeAll();
-        }
-
         if ($(clickElement).hasClass(this.opt.openedClass)){
-            this.close();
+            if (this.opt.interlocking) {
+                this.closeAll();
+            } else {
+                this.close();
+            }
         } else {
+            if (this.opt.interlocking) this.closeAll();
             this.open();
         }
 
