@@ -95,6 +95,7 @@
             body        : existy(param.body) ? param.body : ".js-acd__body",
             openedClass : existy(param.openedClass) ? param.openedClass : "js-isOpen",
 
+            animation   : truthy(param.animation) ? param.animation : true,
             duration    : _.isUndefined(param.duration) ? 400 : param.duration,
 
             startCurrent: _.isUndefined(param.startCurrent) ? null : param.startCurrent,
@@ -115,7 +116,9 @@
         this.currentIndex = _.isNull(this.opt.startCurrent) ? 0 : this.opt.startCurrent;
 
         // init
-        this.$body.hide();
+        if (this.isJsAnime()) this.$body.hide();
+        if (this.isCssAnime()) this.$root.addClass("is-transition");
+
         if (this.opt.startCurrent !== null) this.open();
 
         // set event
@@ -135,7 +138,11 @@
 
         this.$body.eq(this.currentIndex)
             .addClass(this.opt.openedClass)
-            .slideDown(this.opt.duration);
+
+        if (this.isJsAnime()) {
+           this.$body.eq(this.currentIndex)
+               .slideDown(this.opt.duration);
+        }
 
         doCallBack(this.opt.onOpen);
         return false;
@@ -152,7 +159,11 @@
 
         this.$body.eq(this.currentIndex)
             .removeClass(this.opt.openedClass)
-            .slideUp(this.opt.duration);
+
+        if (this.isJsAnime()) {
+            this.$body.eq(this.currentIndex)
+                .slideUp(this.opt.duration);
+        }
 
         doCallBack(this.opt.onClose);
 
@@ -203,6 +214,16 @@
         this.currentIndex = this.$head.index(clickElement);
         return false;
     };
+
+
+    Module.prototype.isJsAnime = function(){
+        return !!this.opt.animation && this.opt.animation !== 'css';
+    }
+
+
+    Module.prototype.isCssAnime = function(){
+        return this.opt.animation === 'css';
+    }
 
 
     return Factory;
