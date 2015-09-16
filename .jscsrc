@@ -1,0 +1,16 @@
+{
+  "disallowMixedSpacesAndTabs": true,
+  "disallowMultipleVarDecl": true,
+  "disallowMultipleLineStrings": true,
+  "disallowNewlineBeforeBlockStatements": true,
+  "disallowSpaceAfterPrefixUnaryOperators": ["!"],
+  "disallowSpaceBeforeBinaryOperators": [","],
+  "disallowSpacesInsideParentheses": true,
+  "disallowTrailingComma": true,
+  "disallowTrailingWhitespace": true,
+  "validateParameterSeparator": ", ",
+  "requireCurlyBraces": ["else", "for", "while", "do", "try", "catch"],
+  "disallowKeywordsOnNewLine": ["else"],
+  "requireLineFeedAtFileEnd": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": true
+}
