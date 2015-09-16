@@ -523,4 +523,17 @@ select {
   padding: 10px;
   border: 1px solid #999;
 }
+.accordion.is-transition .accordion__body{
+  overflow: hidden;
+  position: relative;
+  max-height: 0;
+  z-index: 10;
+  -webkit-transition: max-height 0.3s 0s ease-in;
+  transition: max-height 0.3s 0s ease-in;
+}
+.accordion.is-transition .accordion__body.js-isOpen {
+  max-height: 500px; /* nearly auto */
+  -webkit-transition: max-height 0.3s 0s ease-in;
+  transition: max-height 0.3s 0s ease-in;
+}
 
