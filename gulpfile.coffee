@@ -2,6 +2,8 @@ g = require "gulp"
 $ = require( 'gulp-load-plugins' )()
 connect = require 'gulp-connect'
 
+espower = require("gulp-espower")
+
 port = 3000
 
 # local server
@@ -27,6 +29,23 @@ g.task 'lint', ->
 g.task 'jscs', ->
     g.src('accordion.js')
     .pipe($.jscs())
+
+
+g.task "power-assert", ()->
+    g.src("./test/*.js")
+    .pipe(espower())
+    .pipe(g.dest("./test/powered-test/"))
+
+g.task "karma", ["power-assert"], ()->
+    g.src([
+        "./node_modules/power-assert/build/power-assert.js"
+        "./node_modules/jquery/dist/jquery.min.js"
+        "./node_modules/underscore/underscore-min.js"
+        "./accordion.js"
+        "./test/powered-test/*.js"
+    ])
+    .pipe $.karma
+        configFile: './karma.conf.js'
 
 
 g.task "default", ['connect'], ->
