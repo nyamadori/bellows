@@ -1,26 +1,26 @@
-# tab UI
+# accordion UI
 
-this library is browser tab module.
+this library is browser accordion module.
 
 ## install
 
 ### npm
-```npm install --save-dev```
+```npm install ui--accordion --save-dev```
 
 ### bower
-```bower install --save```
+```bower install ui--accordion --save```
 
 
 ## usage
 
 ### browserify
-```var tab = require('');```
+```var accordion = require('Accordion');```
 
 ### other
 ```
 <script src="jquery.js"></script>
 <script src="underscore.js"></script>
-<script src=".js"></script>
-<script src="app.js"></script> // tab load
+<script src="accordion.js"></script>
+<script src="app.js"></script> // accordion load
 ```
 

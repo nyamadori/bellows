@@ -90,13 +90,13 @@
 
         // option
         this.opt = {
-            root        : moduleRoot,
-            head        : existy(param.head) ? param.head : ".js-acd__head",
-            body        : existy(param.body) ? param.body : ".js-acd__body",
-            openedClass : existy(param.openedClass) ? param.openedClass : "js-isOpen",
+            root       : moduleRoot,
+            head       : existy(param.head) ? param.head : ".js-acd__head",
+            body       : existy(param.body) ? param.body : ".js-acd__body",
+            openedClass: existy(param.openedClass) ? param.openedClass : "js-isOpen",
 
-            animation   : truthy(param.animation) ? param.animation : true,
-            duration    : _.isUndefined(param.duration) ? 400 : param.duration,
+            animation: truthy(param.animation) ? param.animation : true,
+            duration : _.isUndefined(param.duration) ? 400 : param.duration,
 
             startCurrent: _.isUndefined(param.startCurrent) ? null : param.startCurrent,
             interlocking: param.interlocking || false,
@@ -137,11 +137,11 @@
             .addClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .addClass(this.opt.openedClass)
+            .addClass(this.opt.openedClass);
 
-        if (this.isJsAnime()) {
-           this.$body.eq(this.currentIndex)
-               .slideDown(this.opt.duration);
+        if (this.isJsAnime()){
+            this.$body.eq(this.currentIndex)
+                .slideDown(this.opt.duration);
         }
 
         doCallBack(this.opt.onOpen);
@@ -158,9 +158,9 @@
             .removeClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .removeClass(this.opt.openedClass)
+            .removeClass(this.opt.openedClass);
 
-        if (this.isJsAnime()) {
+        if (this.isJsAnime()){
             this.$body.eq(this.currentIndex)
                 .slideUp(this.opt.duration);
         }
@@ -192,7 +192,7 @@
         doCallBack(this.opt.onClick);
 
         if ($(clickElement).hasClass(this.opt.openedClass)){
-            if (this.opt.interlocking) {
+            if (this.opt.interlocking){
                 this.closeAll();
             } else {
                 this.close();
@@ -218,12 +218,12 @@
 
     Module.prototype.isJsAnime = function(){
         return !!this.opt.animation && this.opt.animation !== 'css';
-    }
+    };
 
 
     Module.prototype.isCssAnime = function(){
         return this.opt.animation === 'css';
-    }
+    };
 
 
     return Factory;
