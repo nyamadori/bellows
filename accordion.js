@@ -5,13 +5,12 @@
 
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
-    if (typeof exports === "object"){
-        module.exports = definition(root, require("jquery"), require("underscore"));
+    if (typeof exports === "object") {
+        module.exports = definition(root, require("jquery"));
     } else {
-        root[moduleName] = definition(root, $, _);
+        root[moduleName] = definition(root, $);
     }
-
-})(function(root, $, _){
+})(function(root, $){
     "use strict";
 
     var Module;
