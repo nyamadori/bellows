@@ -8,7 +8,7 @@ describe('options when no paramater', function () {
         dom.className = "js-acd";
         document.getElementsByTagName('body')[0].appendChild(dom);
         acd1 = new Accordion();
-        instance = acd1.instance[0];
+        instance = acd1[0][0];
     });
 
     it('duration is 400', function () {
