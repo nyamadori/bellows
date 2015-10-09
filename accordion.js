@@ -5,16 +5,13 @@
 
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
-    if (typeof exports === "object"){
-        module.exports = definition(root, require("jquery"), require("underscore"));
+    if (typeof exports === "object") {
+        module.exports = definition(root, require("jquery"));
     } else {
-        root[moduleName] = definition(root, $, _);
+        root[moduleName] = definition(root, $);
     }
-
-})(function(root, $, _){
+})(function(root, $){
     "use strict";
-
-    var Module;
 
     // -------------------------------------------------------
     // utility functions
@@ -24,32 +21,28 @@
      * @param  {any} x anything
      * @return {boolean}
      */
-    function existy(x){
-        return x != null;
-    }
-
+    function existy(x){ return x != null; }
 
     /**
      * judge true
      * @param  {any} x anything
      * @return {boolean}
      */
-    function truthy(x){
-        return (x !== false) && existy(x);
-    }
-
+    function truthy(x){ return (x !== false) && existy(x); }
 
     /**
-     * do callback function when if exist function
-     * @param {function} func callback function
-     * @returns {boolean} false
+     * trim string "."
+     * @param  {string} string text
+     * @return {string}        cutted "." string
      */
-    function doCallBack(func){
-        if (_.isFunction(func)){
-            func();
-        }
-        return false;
-    }
+    function trimDot(string){ return string.replace(".", ""); }
+
+    /**
+     * judge undefined
+     * @param  {any} x anything
+     * @return {boolean}
+     */
+    function isUndefined(obj){ return obj === void 0; };
 
 
     // -------------------------------------------------------
@@ -63,18 +56,23 @@
      * @prop {array} instance
      * @namespace
      */
-    function Factory(param){
+    function factory(param){
 
         var rootElement = ".js-acd";
-
-        // param is option object
         var opt = existy(param) ? param : {};
 
-        // set root element
-        var $self = existy(opt.root) ? $(opt.root) : $(rootElement);
+        var $self;
+        if ( existy(opt.root) ) {
+            if(opt.root instanceof jQuery) {
+                $self = param.root;
+            } else {
+                $self = $(param.root);
+            }
+        } else {
+            $self = $(rootElement);
+        }
 
-        // make instances and push array
-        this.instance = $self.map(function(key, val){
+        this[0] = $self.map(function(key, val){
             return new Module(opt, val);
         });
     }
@@ -84,36 +82,37 @@
      * constructor
      * @type {Function}
      */
-    Module = function(param, moduleRoot){
+    function Module(opt, moduleRoot){
 
-        var self = this;
-
-        // option
+        // options
         this.opt = {
-            root       : moduleRoot,
-            head       : existy(param.head) ? param.head : ".js-acd__head",
-            body       : existy(param.body) ? param.body : ".js-acd__body",
-            openedClass: existy(param.openedClass) ? param.openedClass : "js-isOpen",
+            root        : moduleRoot,
+            head        : existy(opt.head) ? opt.head : ".js-acd__head",
+            body        : existy(opt.body) ? opt.body : ".js-acd__body",
+            closeBtn    : existy(opt.closeBtn) ? opt.closeBtn : ".js-acd__closeBtn",
+            openedClass : existy(opt.openedClass) ? opt.openedClass : "js-isOpen",
 
-            animation: truthy(param.animation) ? param.animation : true,
-            duration : _.isUndefined(param.duration) ? 400 : param.duration,
+            animation   : truthy(opt.animation) ? opt.animation : true,
+            duration    : !isUndefined(opt.duration) ? opt.duration : 400,
 
-            startCurrent: _.isUndefined(param.startCurrent) ? null : param.startCurrent,
-            interlocking: param.interlocking || false,
+            startCurrent: !isUndefined(opt.startCurrent) ? opt.startCurrent : null,
+            interlocking: opt.interlocking || false,
 
             // callback
-            onOpen      : param.onOpen || null,
-            onClose     : param.onClose || null,
-            onClick     : param.onClick || null,
-            onAnimateEnd: param.onAnimateEnd || null
+            onOpen      : opt.onOpen || null,
+            onClose     : opt.onClose || null,
+            onClick     : opt.onClick || null,
+            onAnimateEnd: opt.onAnimateEnd || null
         };
 
-        // DOM element
+        // elements
         this.$root = $(moduleRoot);
         this.$head = this.$root.find(this.opt.head);
         this.$body = this.$root.find(this.opt.body);
+        this.$closeBtn = this.$root.find(this.opt.closeBtn);
 
-        this.currentIndex = _.isNull(this.opt.startCurrent) ? 0 : this.opt.startCurrent;
+        // states
+        this.currentIndex = !isUndefined(this.opt.startCurrent) ? this.opt.startCurrent : 0;
 
         // init
         if (this.isJsAnime()) this.$body.hide();
@@ -122,29 +121,50 @@
         if (this.opt.startCurrent !== null) this.open();
 
         // set event
-        this.$head.on("click", function(){
-            self.toggle(this);
-            return false;
-        });
+        this.setClickEvent();
+    }
+
+
+    Module.prototype.setClickEvent = function() {
+        this.$head.on("click", {module: this}, this.clickEventHandler);
+        this.$closeBtn.on("click", {module: this}, this.closeEventHandler);
+    };
+    Module.prototype.clickEventHandler = function(e) {
+        var self = e.data.module;
+        var target = e.target;
+        self.toggle(target);
+        return false;
     };
 
+    Module.prototype.closeEventHandler = function(e) {
+        var self = e.data.module;
+        var target = e.target;
+        self.close('end');
+        return false;
+    };
 
     /**
      * open body panel
      */
-    Module.prototype.open = function(){
+    Module.prototype.open = function(type){
+        var self = this;
+
         this.$head.eq(this.currentIndex)
             .addClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .addClass(this.opt.openedClass);
+            .addClass(this.opt.openedClass)
 
-        if (this.isJsAnime()){
-            this.$body.eq(this.currentIndex)
-                .slideDown(this.opt.duration);
+        if (this.isJsAnime()) {
+           this.$body.eq(this.currentIndex)
+               .slideDown(this.opt.duration,function(){
+                    // run callback
+                    if (type === 'end' && typeof self.opt.onAnimateEnd === 'function') self.opt.onAnimateEnd();
+               });
         }
+        // run callback
+        if (type === 'end' && typeof self.opt.onOpen === 'function') self.opt.onOpen();
 
-        doCallBack(this.opt.onOpen);
         return false;
     };
 
@@ -153,27 +173,41 @@
      * close body panel
      * @returns {boolean}
      */
-    Module.prototype.close = function(){
+    Module.prototype.close = function(type){
+        var self = this;
+
         this.$head.eq(this.currentIndex)
             .removeClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .removeClass(this.opt.openedClass);
+            .removeClass(this.opt.openedClass)
 
-        if (this.isJsAnime()){
+        if (this.isJsAnime()) {
             this.$body.eq(this.currentIndex)
-                .slideUp(this.opt.duration);
+                .slideUp(this.opt.duration, function(){
+                    // run callback
+                    if (type === 'end' && typeof self.opt.onAnimateEnd === 'function') self.opt.onAnimateEnd();
+                });
         }
 
-        doCallBack(this.opt.onClose);
+        // run callback
+        if (type === 'end' && typeof self.onClose === 'function') self.opt.onClose();
 
         return false;
     };
 
-    Module.prototype.closeAll = function(){
+    Module.prototype.closeAll = function(type){
+        var self = this;
+
         this.$head.removeClass(this.opt.openedClass);
-        this.$body.removeClass(this.opt.openedClass).slideUp(this.opt.duration);
-        doCallBack(this.opt.onClose);
+        this.$body.removeClass(this.opt.openedClass)
+            .slideUp(this.opt.duration, function(){
+                // run callback
+                if (type === 'end' && typeof self.opt.onAnimateEnd === 'function') self.opt.onAnimateEnd();
+            });
+
+        // run callback
+        if (type === 'end' && typeof self.opt.onClose === 'function') self.opt.onClose();
 
         return false;
     };
@@ -189,17 +223,18 @@
 
         this.setCurrent(clickElement);
 
-        doCallBack(this.opt.onClick);
+        // run callback
+        if (typeof this.opt.onClick === 'function') this.opt.onClick();
 
         if ($(clickElement).hasClass(this.opt.openedClass)){
-            if (this.opt.interlocking){
-                this.closeAll();
+            if (this.opt.interlocking) {
+                this.closeAll('end');
             } else {
-                this.close();
+                this.close('end');
             }
         } else {
             if (this.opt.interlocking) this.closeAll();
-            this.open();
+            this.open('end');
         }
 
         return false;
@@ -218,13 +253,13 @@
 
     Module.prototype.isJsAnime = function(){
         return !!this.opt.animation && this.opt.animation !== 'css';
-    };
+    }
 
 
     Module.prototype.isCssAnime = function(){
         return this.opt.animation === 'css';
-    };
+    }
 
 
-    return Factory;
+    return factory;
 });
