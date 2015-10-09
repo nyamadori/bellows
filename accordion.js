@@ -39,10 +39,10 @@
 
     /**
      * judge undefined
-     * @param  {any} x anything
+     * @param  {any} obj anything
      * @return {boolean}
      */
-    function isUndefined(obj){ return obj === void 0; };
+    function isUndefined(obj){ return obj === void 0; }
 
 
     // -------------------------------------------------------
@@ -138,7 +138,6 @@
 
     Module.prototype.closeEventHandler = function(e) {
         var self = e.data.module;
-        var target = e.target;
         self.close('end');
         return false;
     };
@@ -153,7 +152,7 @@
             .addClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .addClass(this.opt.openedClass)
+            .addClass(this.opt.openedClass);
 
         if (this.isJsAnime()) {
            this.$body.eq(this.currentIndex)
@@ -180,7 +179,7 @@
             .removeClass(this.opt.openedClass);
 
         this.$body.eq(this.currentIndex)
-            .removeClass(this.opt.openedClass)
+            .removeClass(this.opt.openedClass);
 
         if (this.isJsAnime()) {
             this.$body.eq(this.currentIndex)
@@ -253,12 +252,12 @@
 
     Module.prototype.isJsAnime = function(){
         return !!this.opt.animation && this.opt.animation !== 'css';
-    }
+    };
 
 
     Module.prototype.isCssAnime = function(){
         return this.opt.animation === 'css';
-    }
+    };
 
 
     return factory;
