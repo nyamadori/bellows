@@ -1,7 +1,7 @@
 (function(definition){
     "use strict";
 
-    var moduleName = "Accordion";
+    var moduleName = "uiAccordion";
 
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
@@ -72,7 +72,7 @@
             $self = $(rootElement);
         }
 
-        this[0] = $self.map(function(key, val){
+        return $self.map(function(key, val){
             return new Module(opt, val);
         });
     }
