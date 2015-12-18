@@ -40,7 +40,6 @@ g.task "karma", ["power-assert"], ()->
     g.src([
         "./node_modules/power-assert/build/power-assert.js"
         "./node_modules/jquery/dist/jquery.min.js"
-        "./node_modules/underscore/underscore-min.js"
         "./accordion.js"
         "./test/powered-test/*.js"
     ])

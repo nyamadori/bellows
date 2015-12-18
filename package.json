@@ -1,6 +1,6 @@
 {
   "name": "antibase-accordion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DOM Accordion UI module",
   "main": "accordion.js",
   "repository": {
@@ -29,13 +29,14 @@
     "gulp-rename": "",
     "gulp-sourcemaps": "",
     "gulp-uglify": "",
-    "jquery": "^2.1.4",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.0",
     "karma-mocha": "^0.2.0",
     "mocha": "^2.3.3",
-    "power-assert": "^1.0.1",
-    "underscore": "^1.8.3"
+    "power-assert": "^1.0.1"
+  },
+  "dependencies": {
+    "jquery": "^1.11.3"
   },
   "author": "muyuu",
   "license": "MIT"
