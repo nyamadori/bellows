@@ -1,11 +1,11 @@
 {
-  "name": "",
+  "name": "antibase-accordion",
   "version": "1.0.0",
   "description": "DOM Accordion UI module",
   "main": "accordion.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/muyuu/"
+    "url": "https://github.com/muyuu/antibase-accordion"
   },
   "keywords": [
     "accordion",
