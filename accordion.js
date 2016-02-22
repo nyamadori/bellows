@@ -63,7 +63,7 @@
 
         var $self;
         if ( existy(opt.root) ) {
-            if(opt.root instanceof jQuery) {
+            if(opt.root instanceof $) {
                 $self = param.root;
             } else {
                 $self = $(param.root);
