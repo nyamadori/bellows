@@ -2,20 +2,20 @@
 
 describe('options when no paramater', function () {
 
-    var dom, acd1, instance;
+    var dom, bellows1, instance;
     beforeEach(function () {
         dom = document.createElement('div');
-        dom.className = "js-acd";
+        dom.className = "js-bellows";
         document.getElementsByTagName('body')[0].appendChild(dom);
-        acd1 = uiAccordion();
-        instance = acd1[0];
+        bellows1 = bellows();
+        instance = bellows1[0];
     });
 
     it('duration is 400', function () {
         assert(instance.opt.duration === 400, 'no paramater is 400');
     });
 
-    it('head is ".js-acd__head"', function () {
-        assert(instance.opt.head === ".js-acd__head", "opt.head isn't \".js-acd__head\"");
+    it('head is ".js-bellows__head"', function () {
+        assert(instance.opt.head === ".js-bellows__head", "opt.head isn't \".js-bellows__head\"");
     });
 });
