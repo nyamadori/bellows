@@ -124,20 +124,22 @@
 
 
     Module.prototype.setClickEvent = function() {
-        this.$head.on("click", {module: this}, this.clickEventHandler);
-        this.$closeBtn.on("click", {module: this}, this.closeEventHandler);
+        var self = this;
+        this.$head.on("click", function(e){
+            self.clickEventHandler(e);
+        });
+        this.$closeBtn.on("click", function(){
+            self.closeEventHandler();
+        });
     };
     Module.prototype.clickEventHandler = function(e) {
-        var self = e.data.module;
-        var target = e.target;
-        self.toggle(target);
-        return false;
+        this.toggle(e.currentTarget);
+        return this;
     };
 
     Module.prototype.closeEventHandler = function(e) {
-        var self = e.data.module;
-        self.close('end');
-        return false;
+        this.close('end');
+        return this;
     };
 
     /**
