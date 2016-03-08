@@ -13,6 +13,7 @@
     "browser"
   ],
   "scripts": {
+    "watch": "gulp",
     "build": "gulp build",
     "eslint": "eslint bellows.js",
     "test": "gulp karma"
