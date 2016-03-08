@@ -1,26 +1,25 @@
-# accordion UI
+# bellows
 
 this library is browser accordion module.
 
 ## install
 
 ### npm
-```npm install ui--accordion --save-dev```
+```npm install bellows --save-dev```
 
 ### bower
-```bower install ui--accordion --save```
+```bower install bellows --save```
 
 
 ## usage
 
 ### browserify
-```var accordion = require('Accordion');```
+```var bellows = require('bellows');
 
 ### other
 ```
 <script src="jquery.js"></script>
-<script src="underscore.js"></script>
-<script src="accordion.js"></script>
-<script src="app.js"></script> // accordion load
+<script src="bellows.js"></script>
+<script src="app.js"></script> // bellows load
 ```
 

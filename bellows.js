@@ -1,7 +1,7 @@
 (function(definition){
     "use strict";
 
-    var moduleName = "uiAccordion";
+    var moduleName = "bellows";
 
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
@@ -58,23 +58,21 @@
      */
     function factory(param){
 
-        var rootElement = ".js-acd";
-        var opt = existy(param) ? param : {};
+        var rootElement = ".js-bellows";
+        var opt = !isUndefined(param) ? param : {};
 
-        var $self;
-        if ( existy(opt.root) ) {
-            if(opt.root instanceof $) {
-                $self = param.root;
-            } else {
-                $self = $(param.root);
-            }
-        } else {
-            $self = $(rootElement);
-        }
+        var $list;
+        if (isUndefined(opt.root)) $list = $(rootElement);
+        if (!isUndefined(opt.root)) $list = opt.root instanceof jQuery ? param.root : $(param.root);
 
-        return $self.map(function(key, val){
-            return new Module(opt, val);
-        });
+        var length = $list.length;
+        if (length < 0) return false;
+
+        var mappedlist = [];
+        for (var i = 0; i < length; i++) {
+            mappedlist[i] = new Module(opt, $list[i]);
+        };
+        return mappedlist;
     }
 
 
@@ -87,12 +85,12 @@
         // options
         this.opt = {
             root        : moduleRoot,
-            head        : existy(opt.head) ? opt.head : ".js-acd__head",
-            body        : existy(opt.body) ? opt.body : ".js-acd__body",
-            closeBtn    : existy(opt.closeBtn) ? opt.closeBtn : ".js-acd__closeBtn",
-            openedClass : existy(opt.openedClass) ? opt.openedClass : "js-isOpen",
+            head        : !isUndefined(opt.head) ? opt.head : ".js-bellows__head",
+            body        : !isUndefined(opt.body) ? opt.body : ".js-bellows__body",
+            closeBtn    : !isUndefined(opt.closeBtn) ? opt.closeBtn : ".js-bellows__closeBtn",
+            openedClass : !isUndefined(opt.openedClass) ? opt.openedClass : "js-isOpen",
 
-            animation   : truthy(opt.animation) ? opt.animation : true,
+            animation   : !isUndefined(opt.animation) ? opt.animation : true,
             duration    : !isUndefined(opt.duration) ? opt.duration : 400,
 
             startCurrent: !isUndefined(opt.startCurrent) ? opt.startCurrent : null,
@@ -126,20 +124,22 @@
 
 
     Module.prototype.setClickEvent = function() {
-        this.$head.on("click", {module: this}, this.clickEventHandler);
-        this.$closeBtn.on("click", {module: this}, this.closeEventHandler);
+        var self = this;
+        this.$head.on("click", function(e){
+            self.clickEventHandler(e);
+        });
+        this.$closeBtn.on("click", function(){
+            self.closeEventHandler();
+        });
     };
     Module.prototype.clickEventHandler = function(e) {
-        var self = e.data.module;
-        var target = e.target;
-        self.toggle(target);
-        return false;
+        this.toggle(e.currentTarget);
+        return this;
     };
 
     Module.prototype.closeEventHandler = function(e) {
-        var self = e.data.module;
-        self.close('end');
-        return false;
+        this.close('end');
+        return this;
     };
 
     /**
