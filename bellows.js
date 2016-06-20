@@ -2,10 +2,9 @@
     "use strict";
 
     var moduleName = "bellows";
-
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
-    if (typeof exports === "object") {
+    if (typeof exports === "object"){
         module.exports = definition(root, require("jquery"));
     } else {
         root[moduleName] = definition(root, $);
@@ -21,28 +20,36 @@
      * @param  {any} x anything
      * @return {boolean}
      */
-    function existy(x){ return x != null; }
+    function existy(x){
+        return x != null;
+    }
 
     /**
      * judge true
      * @param  {any} x anything
      * @return {boolean}
      */
-    function truthy(x){ return (x !== false) && existy(x); }
+    function truthy(x){
+        return (x !== false) && existy(x);
+    }
 
     /**
      * trim string "."
      * @param  {string} string text
      * @return {string}        cutted "." string
      */
-    function trimDot(string){ return string.replace(".", ""); }
+    function trimDot(string){
+        return string.replace(".", "");
+    }
 
     /**
      * judge undefined
      * @param  {any} obj anything
      * @return {boolean}
      */
-    function isUndefined(obj){ return obj === void 0; }
+    function isUndefined(obj){
+        return obj === void 0;
+    }
 
 
     // -------------------------------------------------------
@@ -68,11 +75,11 @@
         var length = $list.length;
         if (length < 0) return false;
 
-        var mappedlist = [];
-        for (var i = 0; i < length; i++) {
-            mappedlist[i] = new Module(opt, $list[i]);
-        };
-        return mappedlist;
+        var mappedList = [];
+        for (var i = 0; i < length; i++){
+            mappedList[i] = new Module(opt, $list[i]);
+        }
+        return mappedList;
     }
 
 
@@ -84,14 +91,14 @@
 
         // options
         this.opt = {
-            root        : moduleRoot,
-            head        : !isUndefined(opt.head) ? opt.head : ".js-bellows__head",
-            body        : !isUndefined(opt.body) ? opt.body : ".js-bellows__body",
-            closeBtn    : !isUndefined(opt.closeBtn) ? opt.closeBtn : ".js-bellows__closeBtn",
-            openedClass : !isUndefined(opt.openedClass) ? opt.openedClass : "js-isOpen",
+            root       : moduleRoot,
+            head       : !isUndefined(opt.head) ? opt.head : ".js-bellows__head",
+            body       : !isUndefined(opt.body) ? opt.body : ".js-bellows__body",
+            closeBtn   : !isUndefined(opt.closeBtn) ? opt.closeBtn : ".js-bellows__closeBtn",
+            openedClass: !isUndefined(opt.openedClass) ? opt.openedClass : "js-isOpen",
 
-            animation   : !isUndefined(opt.animation) ? opt.animation : true,
-            duration    : !isUndefined(opt.duration) ? opt.duration : 400,
+            animation: !isUndefined(opt.animation) ? opt.animation : true,
+            duration : !isUndefined(opt.duration) ? opt.duration : 400,
 
             startCurrent: !isUndefined(opt.startCurrent) ? opt.startCurrent : null,
             interlocking: opt.interlocking || false,
@@ -113,8 +120,8 @@
         this.currentIndex = !isUndefined(this.opt.startCurrent) ? this.opt.startCurrent : 0;
 
         // init
-        if (this.isJsAnime()) this.$body.hide();
-        if (this.isCssAnime()) this.$root.addClass("is-transition");
+        if (this.isJsAnimation()) this.$body.hide();
+        if (this.isCssAnimation()) this.$root.addClass("is-transition");
 
         if (this.opt.startCurrent !== null) this.open();
 
@@ -123,7 +130,7 @@
     }
 
 
-    Module.prototype.setClickEvent = function() {
+    Module.prototype.setClickEvent = function(){
         var self = this;
         this.$head.on("click", function(e){
             self.clickEventHandler(e);
@@ -132,12 +139,12 @@
             self.closeEventHandler();
         });
     };
-    Module.prototype.clickEventHandler = function(e) {
+    Module.prototype.clickEventHandler = function(e){
         this.toggle(e.currentTarget);
         return this;
     };
 
-    Module.prototype.closeEventHandler = function(e) {
+    Module.prototype.closeEventHandler = function(){
         this.close('end');
         return this;
     };
@@ -154,12 +161,12 @@
         this.$body.eq(this.currentIndex)
             .addClass(this.opt.openedClass);
 
-        if (this.isJsAnime()) {
-           this.$body.eq(this.currentIndex)
-               .slideDown(this.opt.duration,function(){
+        if (this.isJsAnimation()){
+            this.$body.eq(this.currentIndex)
+                .slideDown(this.opt.duration, function(){
                     // run callback
                     if (type === 'end' && typeof self.opt.onAnimateEnd === 'function') self.opt.onAnimateEnd();
-               });
+                });
         }
         // run callback
         if (type === 'end' && typeof self.opt.onOpen === 'function') self.opt.onOpen();
@@ -181,7 +188,7 @@
         this.$body.eq(this.currentIndex)
             .removeClass(this.opt.openedClass);
 
-        if (this.isJsAnime()) {
+        if (this.isJsAnimation()){
             this.$body.eq(this.currentIndex)
                 .slideUp(this.opt.duration, function(){
                     // run callback
@@ -226,7 +233,7 @@
         if (typeof this.opt.onClick === 'function') this.opt.onClick();
 
         if ($(clickElement).hasClass(this.opt.openedClass)){
-            if (this.opt.interlocking) {
+            if (this.opt.interlocking){
                 this.closeAll('end');
             } else {
                 this.close('end');
@@ -250,12 +257,12 @@
     };
 
 
-    Module.prototype.isJsAnime = function(){
+    Module.prototype.isJsAnimation = function(){
         return !!this.opt.animation && this.opt.animation !== 'css';
     };
 
 
-    Module.prototype.isCssAnime = function(){
+    Module.prototype.isCssAnimation = function(){
         return this.opt.animation === 'css';
     };
 
