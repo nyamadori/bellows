@@ -1,6 +1,6 @@
 {
   "name": "bellows",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "DOM Accordion UI module",
   "main": "bellows.js",
   "repository": {
@@ -40,6 +40,6 @@
   "author": "muyuu",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^1.11."
+    "jquery": "^1.11.1"
   }
 }
