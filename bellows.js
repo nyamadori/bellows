@@ -169,7 +169,7 @@
                 });
         }
         // run callback
-        if (type === 'end' && typeof self.opt.onOpen === 'function') self.opt.onOpen();
+        if (type === 'end' && typeof self.opt.onOpen === 'function') self.opt.onOpen(self);
 
         return false;
     };
@@ -197,7 +197,7 @@
         }
 
         // run callback
-        if (type === 'end' && typeof self.onClose === 'function') self.opt.onClose();
+        if (type === 'end' && typeof self.onClose === 'function') self.opt.onClose(self);
 
         return false;
     };
@@ -213,7 +213,7 @@
             });
 
         // run callback
-        if (type === 'end' && typeof self.opt.onClose === 'function') self.opt.onClose();
+        if (type === 'end' && typeof self.opt.onClose === 'function') self.opt.onClose(self);
 
         return false;
     };

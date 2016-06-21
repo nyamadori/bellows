@@ -6,7 +6,10 @@
         root        : ".js-bellows2",
         interlocking: true,
         startCurrent: 0,
-        duration    : 600
+        duration    : 600,
+        onOpen      : function(instance){
+            console.log(instance);
+        }
     });
 
 })(jQuery, (this || 0).self || global);
