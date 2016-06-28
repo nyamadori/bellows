@@ -141,6 +141,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             self.closeEventHandler();
         });
     };
+
     Module.prototype.clickEventHandler = function (e) {
         this.toggle(e.currentTarget);
         return this;

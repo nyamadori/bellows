@@ -54,7 +54,7 @@ gulp.task('dev', ['babel'], ()=>{
 
 
 gulp.task("default", ['connect'], ()=>{
-    gulp.watch("**/*.js", ["dev"]);
+    gulp.watch("src/**/*.js", ["dev"]);
 });
 
 

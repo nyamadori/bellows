@@ -64,10 +64,10 @@
         if (isUndefined(opt.root)) $list = $(rootElement);
         if (!isUndefined(opt.root)) $list = opt.root instanceof $ ? param.root : $(param.root);
 
-        var length = $list.length;
+        const length = $list.length;
         if (length < 0) return false;
 
-        var mappedList = [];
+        const mappedList = [];
         for (var i = 0; i < length; i++){
             mappedList[i] = new Module(opt, $list[i]);
         }
@@ -131,10 +131,13 @@
             self.closeEventHandler();
         });
     };
+
+
     Module.prototype.clickEventHandler = function(e){
         this.toggle(e.currentTarget);
         return this;
     };
+
 
     Module.prototype.closeEventHandler = function(){
         this.close('end');
@@ -193,6 +196,7 @@
 
         return false;
     };
+
 
     Module.prototype.closeAll = function(type){
         var self = this;
