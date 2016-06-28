@@ -7,14 +7,12 @@ this library is browser accordion module.
 ### npm
 ```npm install bellows --save-dev```
 
-### bower
-```bower install bellows --save```
-
 
 ## usage
 
 ### browserify
 ```var bellows = require('bellows');
+bellows();
 
 ### other
 ```

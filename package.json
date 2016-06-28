@@ -1,6 +1,6 @@
 {
   "name": "bellows",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "DOM Accordion UI module",
   "main": "bellows.js",
   "repository": {
