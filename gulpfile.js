@@ -2,9 +2,7 @@ const gulp = require("gulp");
 const babel = require("gulp-babel");
 const eslint = require("gulp-eslint");
 const connect = require("gulp-connect");
-const espower = require("gulp-espower");
 const jscs = require("gulp-jscs");
-const karma = require("gulp-karma");
 const open = require("gulp-open");
 const rename = require("gulp-rename");
 const sourcemaps = require("gulp-sourcemaps");
@@ -47,25 +45,6 @@ gulp.task('lint', ()=>{
 gulp.task('jscs', ()=>{
     gulp.src(file)
         .pipe(jscs());
-});
-
-
-gulp.task("power-assert", ()=>{
-    gulp.src("./test/*.js")
-        .pipe(espower())
-        .pipe(gulp.dest("./test/powered-test/"));
-});
-
-gulp.task("karma", ["power-assert"], ()=>{
-    gulp.src([
-        `./node_modules/power-assert/build/power-assert.js`,
-        `./node_modules/jquery/dist/jquery.min.js`,
-        `./${file}`,
-        `./test/powered-test/*.js`
-    ])
-        .pipe(karma({
-        configFile: './karma.conf.js'
-    }));
 });
 
 
