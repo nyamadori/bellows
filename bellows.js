@@ -105,6 +105,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             startCurrent: !isUndefined(opt.startCurrent) ? opt.startCurrent : null,
             interlocking: opt.interlocking || false,
+            haveTrigger: opt.haveTrigger || false,
 
             // callback
             onOpen: opt.onOpen || null,
@@ -126,11 +127,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (this.isJsAnimation()) this.$body.hide();
         if (this.isCssAnimation()) this.$root.addClass("is-transition");
 
+        this.setTrigger();
+
         if (this.opt.startCurrent !== null) this.open();
 
         // set event
         this.setClickEvent();
     }
+
+    Module.prototype.setTrigger = function () {
+        var _this = this;
+
+        if (!this.opt.haveTrigger) return this;
+
+        $.each(this.$head, function (key, val) {
+
+            var id = $(val).attr("id");
+
+            $("a[href='#" + id + "']").on("click", function () {
+                _this.setCurrent(val);
+                _this.open();
+            });
+        });
+        return this;
+    };
 
     Module.prototype.setClickEvent = function () {
         var self = this;
@@ -246,7 +266,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
     Module.prototype.setCurrent = function (clickElement) {
         this.currentIndex = this.$head.index(clickElement);
-        return false;
+        return this;
     };
 
     Module.prototype.isJsAnimation = function () {

@@ -1,8 +1,9 @@
-/*global Accordion*/
+/*global bellows*/
 (function($, global){
     "use strict";
-    var acd01 = bellows();
-    var acd02 = bellows({
+    bellows();
+
+    bellows({
         root        : ".js-bellows2",
         interlocking: true,
         startCurrent: 0,
@@ -10,6 +11,11 @@
         onOpen      : function(instance){
             console.log(instance);
         }
+    });
+
+    bellows({
+        root       : ".js-bellows3",
+        haveTrigger: true
     });
 
 })(jQuery, (this || 0).self || global);
