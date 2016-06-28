@@ -1,6 +1,6 @@
 "use strict";
 
-describe('options when no paramater', function () {
+describe('options when no parameter', function () {
 
     var dom, bellows1, instance;
     beforeEach(function () {
@@ -12,7 +12,7 @@ describe('options when no paramater', function () {
     });
 
     it('duration is 400', function () {
-        assert(instance.opt.duration === 400, 'no paramater is 400');
+        assert(instance.opt.duration === 400, 'no parameter is 400');
     });
 
     it('head is ".js-bellows__head"', function () {
