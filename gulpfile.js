@@ -1,82 +1,99 @@
-const g = require("gulp");
-const $ = require("gulp-load-plugins")();
+const gulp = require("gulp");
+const babel = require("gulp-babel");
+const eslint = require("gulp-eslint");
 const connect = require("gulp-connect");
 const espower = require("gulp-espower");
+const jscs = require("gulp-jscs");
+const karma = require("gulp-karma");
+const open = require("gulp-open");
+const rename = require("gulp-rename");
+const sourcemaps = require("gulp-sourcemaps");
+const uglify = require("gulp-uglify");
 
-const port = 3000;
-
-filename = "bellows";
-file = `${filename}.js`;
+const port = 7000;
+const filename = "bellows";
+const file = `${filename}.js`;
 
 // local server
-g.task("connect", ()=>{
+gulp.task("connect", ()=>{
     connect.server({
         port: port,
         livereload: true
     });
 
-    const options = {
-        url: `http://localhost:${port}`,
-        app: "Google Chrome"
-    };
-
-    g.src("./index.html")
-    .pipe($.open("", options));
+    gulp.src("./index.html")
+        .pipe(open("", {
+            url: `http://localhost:${port}`,
+            app: "Google Chrome"
+        }));
 });
 
 
-g.task('lint', ()=>{
-    g.src([file])
-    .pipe($.eslint())
-    .pipe($.eslint.format());
+gulp.task('babel', ()=>{
+    gulp.src(`src/js/${file}`)
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('lint', ()=>{
+    gulp.src([file])
+        .pipe(eslint())
+        .pipe(eslint.format());
 });
 
 
-g.task('jscs', ()=>{
-    g.src(file)
-    .pipe($.jscs());
+gulp.task('jscs', ()=>{
+    gulp.src(file)
+        .pipe(jscs());
 });
 
 
-g.task("power-assert", ()=>{
-    g.src("./test/*.js")
-    .pipe(espower())
-    .pipe(g.dest("./test/powered-test/"));
+gulp.task("power-assert", ()=>{
+    gulp.src("./test/*.js")
+        .pipe(espower())
+        .pipe(gulp.dest("./test/powered-test/"));
 });
 
-g.task("karma", ["power-assert"], ()=>{
-    g.src([
+gulp.task("karma", ["power-assert"], ()=>{
+    gulp.src([
         `./node_modules/power-assert/build/power-assert.js`,
         `./node_modules/jquery/dist/jquery.min.js`,
         `./${file}`,
         `./test/powered-test/*.js`
     ])
-    .pipe($.karma({
+        .pipe(karma({
         configFile: './karma.conf.js'
     }));
 });
 
 
-g.task("default", ['connect'], ()=>{
-    g.watch("**/*.js", ["lint"]);
+gulp.task('dev', ['babel'], ()=>{
+    gulp.run(['lint', 'jscs']);
+});
+
+
+gulp.task("default", ['connect'], ()=>{
+    gulp.watch("**/*.js", ["dev"]);
 });
 
 
 // build
-g.task('build', ()=>{
-    g.src(file)
-    .pipe($.sourcemaps.init())
-    .pipe($.rename({
+gulp.task('build', ()=>{
+    gulp.src(file)
+        .pipe(sourcemaps.init())
+        .pipe(rename({
         basename: `${filename}.min`,
         extname: `.js`
     }))
-    .pipe($.uglify())
-    .pipe($.sourcemaps.write('./'))
-    .pipe(g.dest('./'));
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./'));
 });
 
 
 // style check
-g.task('check', ()=>{
-    g.start(['lint', 'jscs']);
+gulp.task('check', ()=>{
+    gulp.run(['lint', 'jscs']);
 });
