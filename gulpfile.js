@@ -22,8 +22,8 @@ gulp.task("connect", ()=>{
     });
 
     gulp.src("./index.html")
-        .pipe(open("", {
-            url: `http://localhost:${port}`,
+        .pipe(open({
+            uri: `http://localhost:${port}/index.html`,
             app: "Google Chrome"
         }));
 });
