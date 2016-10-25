@@ -263,7 +263,7 @@
 
     /**
      * get current element index
-     * @return {boolean} false
+     * @return {object} this
      */
     Module.prototype.setCurrent = function(clickElement){
         this.currentIndex = this.$head.index(clickElement);
@@ -283,3 +283,4 @@
 
     return factory;
 });
+
