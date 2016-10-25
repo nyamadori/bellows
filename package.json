@@ -19,7 +19,7 @@
     "eslint": "eslint src/js/bellows.js",
     "jscs": "jscs src/js/bellows.js",
     "lint": "npm run eslint && npm run jscs",
-    "test": "karma start ./karma.conf.js --single-run",
+    "test": "karma start ./karma.conf.js --single-run --browsers PhantomJS",
     "karma": "karma start"
   },
   "devDependencies": {

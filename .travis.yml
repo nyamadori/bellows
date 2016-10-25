@@ -7,4 +7,6 @@ before_script:
   - npm install
 
 script:
+  - npm jscs
+  - npm eslint
   - npm test
