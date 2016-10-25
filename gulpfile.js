@@ -15,7 +15,7 @@ const file = `${filename}.js`;
 // local server
 gulp.task("connect", ()=>{
     connect.server({
-        port: port,
+        port      : port,
         livereload: true
     });
 
@@ -63,9 +63,9 @@ gulp.task('build', ()=>{
     gulp.src(file)
         .pipe(sourcemaps.init())
         .pipe(rename({
-        basename: `${filename}.min`,
-        extname: `.js`
-    }))
+            basename: `${filename}.min`,
+            extname : `.js`
+        }))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./'));
