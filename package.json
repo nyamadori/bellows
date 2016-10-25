@@ -1,6 +1,6 @@
 {
   "name": "bellows",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "DOM Accordion UI module",
   "main": "bellows.js",
   "repository": {
@@ -13,9 +13,12 @@
     "browser"
   ],
   "scripts": {
-    "watch": "gulp",
-    "build": "gulp build",
-    "eslint": "eslint bellows.js",
+    "start": "gulp",
+    "build": "gulp dev",
+    "pkg": "gulp build",
+    "eslint": "eslint src/js/bellows.js",
+    "jscs": "jscs src/js/bellows.js",
+    "lint": "npm run eslint && npm run jscs",
     "test": "karma start ./karma.conf.js --single-run",
     "karma": "karma start"
   },
@@ -46,6 +49,6 @@
   "author": "muyuu",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^1.11.1"
+    "jquery": ">=1.11.1"
   }
 }
