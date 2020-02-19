@@ -46,6 +46,6 @@
   "author": "muyuu",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^1.11.1"
+    "jquery": ">=1.11.1"
   }
 }
